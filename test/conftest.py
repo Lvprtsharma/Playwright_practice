@@ -79,3 +79,15 @@ def orangehrm_context_args(browser_context_args: dict) -> dict:
         **browser_context_args,
         "storage_state": "../playwright/.auth/orangeHRM.json"
     }
+
+
+@pytest.fixture(scope="function")
+def dialog_base_url(page: Page) -> Generator[Page, None, None]:
+    """
+    Fixture to open a page containing alert(), confirm(), prompt() dialogs elements.
+
+    Useful for testing interactions with alert(), confirm(), prompt() dialogs.
+    """
+    page.goto(os.getenv("ALERT_URL"))
+    yield page
+    page.close()

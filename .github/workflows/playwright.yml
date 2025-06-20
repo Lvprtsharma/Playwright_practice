@@ -40,6 +40,7 @@ jobs:
           echo "BLOGSPOT_URL=${{ secrets.BLOGSPOT_URL }}" >> .env
           echo "NAL_REGISTER=${{ secrets.NAL_REGISTER }}" >> .env
           echo "SHADOW_DOM_URL=${{ secrets.SHADOW_DOM_URL }}" >> .env
+          echo "ALERT_URL=${{ secrets.ALERT_URL }}" >> .env
 
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
