@@ -19,10 +19,27 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Create .env file
+        run: |
+          echo "HRM_USERNAME=${{ secrets.HRM_USERNAME }}" >> .env
+          echo "HRM_PASSWORD=${{ secrets.HRM_PASSWORD }}" >> .env
+          echo "GOOGLE_URL=${{ secrets.GOOGLE_URL }}" >> .env
+          echo "HRM_LOGIN_URL=${{ secrets.HRM_LOGIN_URL }}" >> .env
+          echo "HRM_DASHBOARD_URL=${{ secrets.HRM_DASHBOARD_URL }}" >> .env
+          echo "SVG_ELE_URL=${{ secrets.SVG_ELE_URL }}" >> .env
+          echo "BLOGSPOT_URL=${{ secrets.BLOGSPOT_URL }}" >> .env
+          echo "NAL_REGISTER=${{ secrets.NAL_REGISTER }}" >> .env
+          echo "SHADOW_DOM_URL=${{ secrets.SHADOW_DOM_URL }}" >> .env
 
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps --only-shell
