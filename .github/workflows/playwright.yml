@@ -5,19 +5,26 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:  # allows manual trigger from GitHub UI
 
 jobs:
   test:
-    timeout-minutes: 2
+    name: Playwright Test (Python ${{ matrix.python-version }})
+    timeout-minutes: 5
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+    strategy:
+      matrix:
+        python-version: [3.10, 3.11]
 
-      - name: Set up Python
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: ${{ matrix.python-version }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -41,7 +48,7 @@ jobs:
           echo "NAL_REGISTER=${{ secrets.NAL_REGISTER }}" >> .env
           echo "SHADOW_DOM_URL=${{ secrets.SHADOW_DOM_URL }}" >> .env
 
-      - name: Ensure browsers are installed
+      - name: Install Playwright Browsers
         run: python -m playwright install --with-deps
 
       - name: Generate login session
@@ -54,5 +61,5 @@ jobs:
         uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-traces
+          name: playwright-traces-${{ matrix.python-version }}
           path: test-results/
