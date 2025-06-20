@@ -39,3 +39,4 @@ build
 *.coverage.*
 *.hypothesis
 screenshots
+playwright/.auth
