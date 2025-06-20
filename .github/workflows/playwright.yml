@@ -42,7 +42,7 @@ jobs:
           echo "SHADOW_DOM_URL=${{ secrets.SHADOW_DOM_URL }}" >> .env
 
       - name: Ensure browsers are installed
-        run: python -m playwright install --with-deps --only-shell
+        run: python -m playwright install --with-deps
 
       - name: Generate login session
         run: python login_setup/orangeHrm_login.py
