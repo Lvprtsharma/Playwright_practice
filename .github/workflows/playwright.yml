@@ -44,6 +44,9 @@ jobs:
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps --only-shell
 
+      - name: Generate login session
+        run: python login_setup/orangeHrm_login.py
+
       - name: Run tests
         run: pytest --tracing retain-on-failure
 
