@@ -41,6 +41,10 @@ jobs:
           echo "NAL_REGISTER=${{ secrets.NAL_REGISTER }}" >> .env
           echo "SHADOW_DOM_URL=${{ secrets.SHADOW_DOM_URL }}" >> .env
           echo "ALERT_URL=${{ secrets.ALERT_URL }}" >> .env
+          echo "IFRAME_URL=${{ secrets.IFRAME_URL }}" >> .env
+          echo "BASIC_AUTH_URL=${{ secrets.BASIC_AUTH_URL }}" >> .env
+          echo "BASIC_AUTH_USERNAME=${{ secrets.BASIC_AUTH_USERNAME }}" >> .env
+          echo "BASIC_AUTH_PASSWORD=${{ secrets.BASIC_AUTH_PASSWORD }}" >> .env
 
       - name: Ensure browsers are installed
         run: python -m playwright install --with-deps
