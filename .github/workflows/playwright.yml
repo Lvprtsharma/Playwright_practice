@@ -1,10 +1,20 @@
 name: Playwright Practice
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      browser:
+        type: choice
+        description: 'Run Playwright tests on which browsers?'
+        required: true
+        options:
+          - 'chromium'
+          - 'firefox'
+          - 'webkit'
+        default: chromium
+
 
 jobs:
   test:

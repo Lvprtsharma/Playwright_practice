@@ -1,8 +1,9 @@
 import os
-import pytest
-from typing import Generator
+import pytest, pytest_asyncio
+from typing import AsyncGenerator, Generator
 from dotenv import load_dotenv
-from playwright.sync_api import Page
+from playwright.sync_api import Page, sync_playwright, Playwright
+from playwright.async_api import async_playwright
 
 load_dotenv()
 
@@ -89,5 +90,41 @@ def dialog_base_url(page: Page) -> Generator[Page, None, None]:
     Useful for testing interactions with alert(), confirm(), prompt() dialogs.
     """
     page.goto(os.getenv("ALERT_URL"))
+    yield page
+    page.close()
+
+
+@pytest.fixture(scope="function")
+def internet_herokuapp_url(page: Page):
+    """
+    Async fixture to open the Internet Herokuapp page.
+
+    Useful for testing various web interactions and behaviors.
+    """
+    page.goto(os.getenv("INTERNET_HEROKUAPP_URL"))
+    yield page
+    page.close()
+        
+
+@pytest.fixture(scope="function")
+def w2a_url(page: Page) -> Generator[Page, None, None]:
+    """
+    Fixture to open the W2A (Way 2.0 Automation) practice page.
+
+    Useful for testing various web interactions and behaviors.
+    """
+    page.goto(os.getenv("W2A_URL"))
+    yield page
+    page.close()
+    
+
+@pytest.fixture(scope="function")
+def openqa_url(page: Page):
+    """
+    Fixture to open the OpenQA practice page.
+
+    Useful for testing various web interactions and behaviors.
+    """
+    page.goto(os.getenv("OPENQA_URL"))
     yield page
     page.close()
