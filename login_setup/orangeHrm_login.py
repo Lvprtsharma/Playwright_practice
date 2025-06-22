@@ -8,7 +8,7 @@ load_dotenv()
 
 async def save_login_session():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=False)
         context = await browser.new_context()
         page = await context.new_page()
 
@@ -25,9 +25,12 @@ async def save_login_session():
         # Wait for the dashboard to be visible
         await page.wait_for_selector("text=Dashboard")
 
-        # Save the session state
-        Path("../playwright/.auth").mkdir(parents=True, exist_ok=True)
-        await context.storage_state(path="../playwright/.auth/orangeHRM.json")
+        auth_dir = Path(__file__).parent.parent / "playwright" / ".auth"
+        auth_dir.mkdir(parents=True, exist_ok=True)
+        auth_path = auth_dir / "orangeHRM.json"
+
+        await context.storage_state(path=str(auth_path))
+        print(f"Storage state saved at: {auth_path}")
 
         await browser.close()
 
